@@ -10,11 +10,11 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {path: "", redirect: 'panel'},
-      {path: 'panel', component: () => import('pages/private/admin/PanellAdmin.vue')},
-      {path: 'professor/:id', component: () => import('pages/private/admin/Professor.vue')},
-      {path: 'usuari/:id', component: () => import('pages/private/admin/Usuari.vue')},
-      {path: 'professors', component: () => import('pages/private/admin/Professors.vue')},
-      {path: 'usuaris', component: () => import('pages/private/admin/Usuaris.vue')},
+      {path: 'panel', component: () => import('pages/private/PanellAdmin.vue')},
+      {path: 'professor/:id', component: () => import('pages/private/Professor.vue')},
+      {path: 'usuari/:id', component: () => import('pages/private/Usuari.vue')},
+      {path: 'professors', component: () => import('pages/private/Professors.vue')},
+      {path: 'usuaris', component: () => import('pages/private/Usuaris.vue')},
     ],
     beforeEnter: (to, from, next) => {
       const token = localStorage.getItem('access_token');
@@ -42,7 +42,7 @@ const routes = [
           if (!admin) {
             next('/login');
           }
-          
+
           /*
           * Save tokens
           * */
