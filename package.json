@@ -8,8 +8,9 @@
   "author": "esliceu.com",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
-  },
+    "build": "quasar build",
+    "dev": "quasar dev",
+    "test": "echo \"No test specified\" && exit 0"  },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
