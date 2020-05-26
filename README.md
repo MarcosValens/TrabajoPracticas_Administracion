@@ -1,7 +1,11 @@
 # administracio (administracio)
 
-Projecte de administracio per el CORE 
+Projecte de administracio per el CORE
 
+To clone this project use
+```
+git clone ssh://git@git.esliceu.com:6622/esliceu_programadores/administracio.git
+```
 ## Install the dependencies
 ```bash
 npm install
