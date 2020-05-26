@@ -133,7 +133,7 @@
         <q-separator inset=""/>
 
         <q-card-actions align="right">
-          <q-btn label="desar" @click="changePasswd" color="blue-9" unelevated/>
+          <q-btn label="desar" @click="changePasswd" color="blue-9" unelevated v-close-popup/>
           <q-btn label="cancelar" @click="clearPasswordManager" flat color="red-9" v-close-popup/>
         </q-card-actions>
       </q-card>
