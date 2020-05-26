@@ -14,15 +14,38 @@
 
         <q-toolbar-title>Administració</q-toolbar-title>
 
-        <q-btn icon="far fa-user" flat round>
-          <q-menu>
-            <q-card>
-              <q-card-section>
-                {{}}
-              </q-card-section>
-            </q-card>
+
+        <q-btn icon="far fa-user" outline round>
+          <q-menu class="">
+            <q-list style="width: 220px">
+              <q-item>
+                <q-item-section class="text-black">{{loguedUser.nom}} {{loguedUser.cognoms}}</q-item-section>
+              </q-item>
+              <q-separator inset=""/>
+              <q-item clickable v-close-popup @click="cambiarContrasenya=true">
+                <q-item-section avatar>
+                  <q-avatar icon="lock" text-color="black"/>
+                </q-item-section>
+                <q-item-section class="text-black">Canviar contrasenya</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup to="/login">
+                <q-item-section avatar>
+                  <q-avatar icon="supervisor_account"/>
+                </q-item-section>
+                <q-item-section>Canviar de compte</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup @click="disconnect">
+                <q-item-section avatar class="text-black">
+                  <q-avatar icon="exit_to_app"/>
+                </q-item-section>
+                <q-item-section class="text-black">
+                  Desconectarse
+                </q-item-section>
+              </q-item>
+            </q-list>
           </q-menu>
         </q-btn>
+
       </q-toolbar>
     </q-header>
 
@@ -85,7 +108,8 @@
                 content-class="bg-secondary"
                 anchor="center right"
                 self="center left"
-              >Desconectarse</q-tooltip>
+              >Desconectarse
+              </q-tooltip>
             </q-btn>
           </div>
         </div>
@@ -93,8 +117,27 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
+    <q-dialog position="right" v-model="cambiarContrasenya" @before-hide="clearPasswordManager">
+      <q-card style="min-width: 300px">
+        <q-card-section>
+          <div class="text-h6 text-weigth-light">Canviar contrasenya</div>
+        </q-card-section>
+        <q-separator inset=""/>
+        <q-card-section>
+          <q-input label="Contrasenya antigua" outlined class="q-my-xs" v-model="passwordmanager.oldpasswd"/>
+          <q-input label="Contrasenya nova" outlined class="q-my-xs" v-model="passwordmanager.newpasswd"/>
+          <q-input label="Repetir contrasenya" outlined class="q-my-xs" v-model="passwordmanager.newpasswd2"/>
+        </q-card-section>
+        <q-separator inset=""/>
+
+        <q-card-actions align="right">
+          <q-btn label="desar" @click="changePasswd" color="blue-9" unelevated/>
+          <q-btn label="cancelar" @click="clearPasswordManager" flat color="red-9" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-layout>
 </template>
 
@@ -130,6 +173,12 @@ export default {
         nom: "",
         cognoms: "",
         email: ""
+      },
+      cambiarContrasenya: false,
+      passwordmanager: {
+        oldpasswd: '',
+        newpasswd: '',
+        newpasswd2: ''
       }
     };
   },
@@ -146,14 +195,35 @@ export default {
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("rol");
       this.$router.push("/login");
-    }
+    },
+    async changePasswd() {
+      const response = await this.$axiosCore.put('private/auth/password', this.passwordmanager)
+      if (response.status === 200) this.notify("Contrasenya modificada correctament")
+    },
+    clearPasswordManager() {
+      this.passwordmanager.oldpasswd = ''
+      this.passwordmanager.newpasswd = ''
+      this.passwordmanager.newpasswd2 = ''
+    },
+    notify(message) {
+      this.$q.notify({
+        message: message,
+        color: 'secondary',
+        position: 'bottom-left'
+      })
+    },
   },
   async created() {
     /**
      * Cogemos la informacion propia del usuario logueado
      */
     const response = await this.$axiosCore.get("/private/usuario/me");
-  }
+    console.log(response)
+    if (response.status === 200) {
+      this.loguedUser.nom = response.data.nombre;
+      this.loguedUser.cognoms = response.data.apellido1 + ' ' + response.data.apellido2;
+    }
+  },
 };
 </script>
 <style>

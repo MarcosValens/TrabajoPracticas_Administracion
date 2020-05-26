@@ -10,8 +10,9 @@
         <q-card square bordered class="q-pa-lg shadow-1">
           <q-card-section>
               <q-input class="q-my-sm" outlined  v-model="login.email" type="email" label="email" />
-              <q-input class="q-my-sm" outlined  v-model="login.password"  label="password"
+              <q-input class="q-my-sm" outlined v-model="login.password" label="password"
                        :type="!verContrasena ? 'password' : 'text'"
+                       @keydown.enter="doLogin"
               >
                 <template v-slot:append>
                   <q-icon
@@ -39,6 +40,8 @@
         </q-card>
       </div>
     </div>
+
+
   </q-page>
 </template>
 
@@ -53,7 +56,8 @@
           email: '',
           password: '',
         },
-        verContrasena: false
+        verContrasena: false,
+
       }
     },
     methods: {
@@ -85,13 +89,14 @@
           this.notify('Email o contrasenya incorrectes')
         }
       },
-      notify(message){
+      notify(message) {
         this.$q.notify({
           message: message,
           color: 'primary',
           position: 'bottom-left'
         })
-      }
+      },
+
     }
   }
 </script>
