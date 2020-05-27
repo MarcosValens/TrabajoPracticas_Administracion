@@ -126,9 +126,36 @@
         </q-card-section>
         <q-separator inset=""/>
         <q-card-section>
-          <q-input label="Contrasenya antigua" outlined class="q-my-xs" v-model="passwordmanager.oldpasswd"/>
-          <q-input label="Contrasenya nova" outlined class="q-my-xs" v-model="passwordmanager.newpasswd"/>
-          <q-input label="Repetir contrasenya" outlined class="q-my-xs" v-model="passwordmanager.newpasswd2"/>
+          <q-input label="Contrasenya antigua" outlined class="q-my-xs" v-model="passwordmanager.oldpasswd"
+                   :type="passwordmanager.showOld?'text':'password'">
+            <template v-slot:append>
+              <q-icon
+                :name="!passwordmanager.showOld ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="passwordmanager.showOld = !passwordmanager.showOld"
+              />
+            </template>
+          </q-input>
+          <q-input label="Contrasenya nova" outlined class="q-my-xs" v-model="passwordmanager.newpasswd"
+                   :type="passwordmanager.showNew?'text':'password'">
+            <template v-slot:append>
+              <q-icon
+                :name="!passwordmanager.showNew ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="passwordmanager.showNew = !passwordmanager.showNew"
+              />
+            </template>
+          </q-input>
+          <q-input label="Repetir contrasenya" outlined class="q-my-xs" v-model="passwordmanager.newpasswd2"
+                   :type="passwordmanager.showNew1?'text':'password'">
+            <template v-slot:append>
+              <q-icon
+                :name="!passwordmanager.showNew1 ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="passwordmanager.showNew1 = !passwordmanager.showNew1"
+              />
+            </template>
+          </q-input>
         </q-card-section>
         <q-separator inset=""/>
 
@@ -178,7 +205,10 @@ export default {
       passwordmanager: {
         oldpasswd: '',
         newpasswd: '',
-        newpasswd2: ''
+        newpasswd2: '',
+        showOld: false,
+        showNew: false,
+        showNew1: false
       }
     };
   },
