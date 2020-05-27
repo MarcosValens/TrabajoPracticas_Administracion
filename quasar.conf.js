@@ -87,7 +87,7 @@ module.exports = function (ctx) {
       CORE_URL: JSON.stringify("http://localhost:8080"),
       URI_OAUTH_GOOGLE: JSON.stringify('/oauth2/authorize')
     } : {
-      CORE_URL: JSON.stringify("https://menjador.esliceu.com/api"),
+      CORE_URL: JSON.stringify("https://api.esliceu.com"),
       URI_OAUTH_GOOGLE: JSON.stringify('/oauth2/authorize')
     }
   },
