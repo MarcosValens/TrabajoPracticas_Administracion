@@ -3,6 +3,20 @@ const routes = [
     path: '/',
     children: [
       {path: "", redirect: '/admin'},
+      {
+        path: 'change/password', component: () => import('pages/public/Recovery.vue'),
+        beforeEnter: (to, from, next) => {
+          const url = new URL(location);
+          const token = url.searchParams.get('recovery_token');
+          sessionStorage.setItem('recovery_token_passwd', token);
+          /*
+          * Limpiar url de params
+          * */
+
+          window.history.pushState({}, document.title, "/#/change/password");
+          next()
+        }
+      }
     ]
   },
   {
