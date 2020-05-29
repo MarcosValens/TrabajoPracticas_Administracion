@@ -4,7 +4,7 @@
     >
     <div class="column">
       <div class="row">
-        <h5 class="text-h5  q-my-md">Menjador - Es Liceu</h5>
+        <h5 class="text-h5  q-my-md">Administracio - Es Liceu</h5>
       </div>
       <div class="row">
         <q-card square bordered class="q-pa-lg shadow-1">
@@ -35,9 +35,37 @@
                 </div>
               </q-btn>
             </a>
+            <div @click="forgottenUserPassword = true"
+                 class="full-width text-center cursor-pointer text-weight-bold q-mt-md">¿Contrasenya oblidada?
+            </div>
           </q-card-actions>
 
         </q-card>
+
+        <q-dialog v-model="forgottenUserPassword" @before-hide="()=>this.forgottenUserEmail=''">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6 ">¿No recorda la seva contrasenya?</div>
+            </q-card-section>
+            <q-separator/>
+            <q-card-section>
+              <div class="q-mb-sm">
+                L'hi enviarem un correu de recuperació a:
+              </div>
+              <q-input v-model="forgottenUserEmail" outlined type="email" label="Email">
+                <template v-slot:append>
+                  <q-icon
+                    name="alternate_email"
+                  />
+                </template>
+              </q-input>
+            </q-card-section>
+            <q-card-actions class="q-px-md">
+              <q-btn color="primary" class="full-width" label="Enviar correu de recuperació" v-close-popup
+                     @click="sendEmailPass(forgottenUserEmail)"/>
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
     </div>
 
@@ -57,7 +85,8 @@
           password: '',
         },
         verContrasena: false,
-
+        forgottenUserPassword: false,
+        forgottenUserEmail: ''
       }
     },
     methods: {
@@ -96,6 +125,15 @@
           position: 'bottom-left'
         })
       },
+      async sendEmailPass(email) {
+        const response = await this.$axiosCore.post("/auth/recovery", {
+          email: email
+        })
+        if (response.status === 200) {
+          this.notify("Un email de confirmació ha sigut enviat al teu correu electrònic")
+          this.forgottenUserEmail = ''
+        }
+      }
 
     }
   }
