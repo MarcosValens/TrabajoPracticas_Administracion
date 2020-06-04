@@ -85,10 +85,10 @@ module.exports = function (ctx) {
     },
     env: ctx.dev ? {
       CORE_URL: JSON.stringify("http://localhost:8080"),
-      URI_OAUTH_GOOGLE: JSON.stringify('/oauth2/authorize')
+      URI_OAUTH_GOOGLE: JSON.stringify('/oauth2/authorize?Origin=admin')
     } : {
       CORE_URL: JSON.stringify("https://api.esliceu.com"),
-      URI_OAUTH_GOOGLE: JSON.stringify('/oauth2/authorize')
+      URI_OAUTH_GOOGLE: JSON.stringify('/oauth2/authorize?Origin=admin')
     }
   },
 
