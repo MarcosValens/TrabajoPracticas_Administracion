@@ -108,7 +108,7 @@ export default {
           label: "Administrador",
           align: "center",
           field: row => row.isAdmin,
-          format: val => `${val}`,
+          format: val => `${val?"Si":"No"}`,
           sortable: true
         },
         {
@@ -117,7 +117,7 @@ export default {
           label: "Cuiner",
           align: "center",
           field: row => row.isCuiner,
-          format: val => `${val}`,
+          format: val => `${val?"Si":"No"}`,
           sortable: true
         },
         {
@@ -126,7 +126,7 @@ export default {
           label: "Monitor",
           align: "center",
           field: row => row.isMonitor,
-          format: val => `${val}`,
+          format: val => `${val?"Si":"No"}`,
           sortable: true
         }
       ],
