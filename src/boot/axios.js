@@ -2,7 +2,10 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const axiosBackend = axios.create({
-    baseURL: process.env.CORE_URL
+  baseURL: process.env.CORE_URL
+})
+const axiosRefresh = axios.create({
+  baseURL: process.env.CORE_URL
 })
 
 export default async ({Vue, router}) => {
@@ -16,6 +19,12 @@ export default async ({Vue, router}) => {
     return Promise.reject(error);
   });
 
+  axiosRefresh.interceptors.response.use(function(response){
+    return response;
+  },async function(error){
+    router.push("/login");
+  })
+
   axiosBackend.interceptors.response.use(function (response) {
     return response;
   }, async function (error) {
@@ -28,6 +37,7 @@ export default async ({Vue, router}) => {
     * por que si nos da este error en el login significa que
     * no se ha podido autenticar, no que el token este caducado
     * */
+
     if (error.response.status === 401 && router.currentRoute.path !== '/login') {
       // UNAUTORIZED, token no valido o token caducado.
 
@@ -36,25 +46,31 @@ export default async ({Vue, router}) => {
       *
       * TODO - Aqui irá el path para hacer un refresh
       * */
-      const response = await axiosBackend.post('/auth/refresh', {
-        refresh_token: localStorage.getItem("refresh_token")
-      });
-
-      /*
-      * OK - token renovado
-      * */
-
-      if (response.status === 200) {
-        const token = response.data.access_token;
-        const refresh = response.data.refresh_token;
-        localStorage.setItem("access_token", token);
-        localStorage.setItem("refresh_token", refresh);
-
-        return axiosBackend(originalRequest);
-      } else {
+      if(localStorage.getItem("refresh_token")===null){
         router.push("/login")
-      }
+      }else{
+        const response = await axiosRefresh.post('/auth/refresh', {
+          refresh_token: localStorage.getItem("refresh_token")
+        });
 
+        /*
+        * OK - token renovado
+        * */
+
+        if (response.status === 200) {
+          const token = response.data.access_token;
+          const refresh = response.data.refresh_token;
+          localStorage.setItem("access_token", token);
+          localStorage.setItem("refresh_token", refresh);
+
+          return axiosBackend(originalRequest);
+        } else {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          router.push("/login")
+        }
+
+      }
     }
 
     if (error.response.status === 403) {
@@ -68,3 +84,4 @@ export default async ({Vue, router}) => {
 
 
 Vue.prototype.$axiosCore = axiosBackend
+
