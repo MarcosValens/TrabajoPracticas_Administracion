@@ -25,7 +25,7 @@
               text-color="black"
               to="professors"
 
-              style="height: 230px; width: 300px; "
+              style="height: 130px; width: 300px; "
               class="q-ma-sm "
             >
               <div class="text-h5 column">
@@ -43,6 +43,22 @@
                 <div v-if="numeroDeProfesoresApp!==null">
 
                   {{numeroDeProfesoresApp}}
+                </div>
+              </div>
+            </q-btn>
+          </div>
+          <div>
+            <q-btn
+              color="primary"
+              text-color="white"
+
+              style="height: 130px; width: 300px; "
+              class="q-ma-sm "
+              @click="actuLdap"
+            >
+              <div class="text-h5 column">
+                <div class="q-mb-md">
+                  ACTUALIZAR LDAP
                 </div>
               </div>
             </q-btn>
@@ -94,10 +110,26 @@
               </div>
             </q-btn>
           </div>
+          <div>
+            <q-btn
+              color="white"
+              text-color="black"
+
+              style="height: 130px; width: 300px; "
+              class="q-ma-sm "
+              @click="notificarTutor"
+            >
+              <div class="text-h5 column">
+                <div class="q-mb-md">
+                  Notificar llistat alumnes a tutor
+                </div>
+              </div>
+            </q-btn>
+          </div>
         </div>
 
       </div>
-
+      
     </div>
 
 
@@ -227,6 +259,25 @@
       }
     },
     methods: {
+      actuLdap(){
+        this.$axiosCore.post('/ldap/actualizarAlumnes').then(() => {
+          if (response.status === 200) {
+            this.notify("LDAP Actualizat")
+          } else {
+            this.notify(response.data)
+          }
+        })
+      },
+      actuLdap(){
+        //TODO: Poner link real
+        this.$axiosCore.post('#').then(() => {
+          if (response.status === 200) {
+            this.notify("Tutor notificat!")
+          } else {
+            this.notify(response.data)
+          }
+        })
+      },
       async uploadXml() {
         this.uploadingXml = true;
         const formData = new FormData()
