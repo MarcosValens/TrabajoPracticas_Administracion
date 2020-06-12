@@ -29,6 +29,7 @@ const routes = [
       {path: 'professor/:id', component: () => import('pages/private/Professor.vue')},
       {path: 'usuari/:id', component: () => import('pages/private/Usuari.vue')},
       {path: 'professors', component: () => import('pages/private/Professors.vue')},
+      {path: 'alumnes', component: () => import('pages/private/Alumnes.vue')},
       {path: 'usuaris', component: () => import('pages/private/Usuaris.vue')},
     ],
     beforeEnter: (to, from, next) => {
