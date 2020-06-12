@@ -191,6 +191,11 @@ export default {
           title: "Professors",
           icon: "people",
           link: "/admin/professors"
+        },
+        {
+          title: "Alumnes",
+          icon: "people",
+          link: "/admin/alumnes"
         }
       ],
       drawer: false,
