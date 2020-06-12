@@ -39,7 +39,7 @@
                   <q-avatar icon="exit_to_app"/>
                 </q-item-section>
                 <q-item-section class="text-black">
-                  Desconectarse
+                  Desconnectar-se
                 </q-item-section>
               </q-item>
             </q-list>
@@ -78,7 +78,7 @@
             color="secondary"
             outline
             icon-right="exit_to_app"
-            label="Desconectarse"
+            label="Desconnectar-se"
             @click="disconnect"
           />
         </div>
@@ -108,7 +108,7 @@
                 content-class="bg-secondary"
                 anchor="center right"
                 self="center left"
-              >Desconectarse
+              >Desconnectar-se
               </q-tooltip>
             </q-btn>
           </div>
