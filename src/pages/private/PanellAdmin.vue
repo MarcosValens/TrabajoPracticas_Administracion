@@ -260,7 +260,7 @@
     },
     methods: {
       actuLdap(){
-        this.$axiosCore.post('/admin/ldap/actualitzarAlumnes').then(() => {
+        this.$axiosCore.post('/admin/ldap/actualitzarTot').then(() => {
           if (response.status === 200) {
             this.notify("LDAP Actualizat")
           } else {
