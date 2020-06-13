@@ -129,7 +129,7 @@
         </div>
 
       </div>
-      
+
     </div>
 
 
@@ -260,19 +260,9 @@
     },
     methods: {
       actuLdap(){
-        this.$axiosCore.post('/ldap/actualizarAlumnes').then(() => {
+        this.$axiosCore.post('/admin/ldap/actualitzarAlumnes').then(() => {
           if (response.status === 200) {
             this.notify("LDAP Actualizat")
-          } else {
-            this.notify(response.data)
-          }
-        })
-      },
-      actuLdap(){
-        //TODO: Poner link real
-        this.$axiosCore.post('#').then(() => {
-          if (response.status === 200) {
-            this.notify("Tutor notificat!")
           } else {
             this.notify(response.data)
           }
